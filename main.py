@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 
 from src.api.routers import all_routers
-
+from src.core.utils.config import settings
 
 load_dotenv()
 
@@ -26,7 +26,11 @@ for router in all_routers:
 
 
 async def main():
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(
+        "main:app",
+        host=settings.run.host,
+        port=settings.run.port,
+        reload=True)
 
 
 if __name__ == "__main__":

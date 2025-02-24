@@ -4,6 +4,4 @@ services:
     restart: always
     container_name: playit-shop-backend
     ports:
-     - "8000:8000"
-    environment:
-      - "PLAYIT_TABLE_FILE_NAME=playIT-2024.xlsx"
+     - "8002:8002"
