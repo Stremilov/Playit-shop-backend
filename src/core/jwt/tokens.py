@@ -1,7 +1,6 @@
-from datetime import datetime, timedelta
-from fastapi_users.jwt import generate_jwt, decode_jwt
+from fastapi_users.jwt import decode_jwt
 from fastapi import HTTPException
-from src.utils.config import SECRET_KEY
+from src.core.utils.config import SECRET_KEY
 
 
 def verify_jwt_token(token: str) -> dict:

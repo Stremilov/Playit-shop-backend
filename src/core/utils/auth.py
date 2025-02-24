@@ -1,7 +1,6 @@
 from fastapi import HTTPException, Request
 
-from src.jwt.tokens import verify_jwt_token
-from src.repositories.users import UserRepository
+from src.core.jwt.tokens import verify_jwt_token
 
 
 async def verify_user_by_jwt(request: Request):

@@ -1,18 +1,16 @@
 from fastapi import APIRouter, Request
 
 from src.api.responses import excel_parser_responses
-from src.schemas.excel import ShopItemsResponse
-from src.services.excel import ExcelService
+from src.core.schemas.excel import ShopItemsResponse
+from src.core.services.excel import ExcelService
 
-exel_router = APIRouter(
-    prefix="/excel",
-    tags=["Excel"]
-)
+exel_router = APIRouter()
 
 
 @exel_router.get(
-    path="/shop",
+    path="/get",
     response_model=ShopItemsResponse,
+    tags=["Shop"],
     summary="Возвращает все актуальные данные магазина",
     description="""
     Возвращает все актуальные данные магазина:
