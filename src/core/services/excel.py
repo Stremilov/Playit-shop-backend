@@ -49,10 +49,11 @@ class ExcelService:
         if excel_shop_df.empty:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Такой таблицы не существует")
 
-        if "Наименование" not in excel_shop_df.columns or "Кол-во" not in excel_shop_df.columns:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Некорректный формат таблицы")
+        # В табличке столбец Наименование выглядит как "Наименование " с пробелом!
+        if "Наименование " not in excel_shop_df.columns or "Кол-во" not in excel_shop_df.columns:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="{Некорректный формат таблицы")
 
-        index = excel_shop_df[excel_shop_df["Наименование"] == item_name].index
+        index = excel_shop_df[excel_shop_df["Наименование "] == item_name].index
 
         if index.empty:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Товар не найден")
