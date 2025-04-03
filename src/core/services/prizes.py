@@ -11,6 +11,7 @@ class PrizeService:
 
     @staticmethod
     async def exchange(request: Request, data: ExchangeData, db: AsyncSession):
+        # Ранее тут сравнивался tuple с числом, исправил это в get_user_coins(...)
         if await UserRepository.get_user_coins(user_id=data.user_id, db=db) >= data.value:
             # TODO подумать над реализацией потому что ExcelService.decrement_prize_count может выполнится,
             #  а PrizeRepository.exchange может не выполниться и мы потеряем 1 значение количества вещи
