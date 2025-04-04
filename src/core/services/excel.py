@@ -16,7 +16,9 @@ class ExcelService:
             request: Request,
             session: AsyncSession
     ):
-        await verify_user_by_jwt(request=request, session=session)
+        user = await verify_user_by_jwt(request=request, session=session)
+        if not user:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Пользователь не найден")
 
         file_path = "PlayIT.xlsx"
 
