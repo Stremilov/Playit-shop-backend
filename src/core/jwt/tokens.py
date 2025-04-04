@@ -1,6 +1,7 @@
 from fastapi_users.jwt import decode_jwt
 from fastapi import HTTPException
 from src.core.utils.config import settings
+from jose import JWTError
 
 
 def verify_jwt_token(token: str) -> dict:
