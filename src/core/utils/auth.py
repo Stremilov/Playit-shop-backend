@@ -17,7 +17,7 @@ async def verify_user_by_jwt(request: Request, session: AsyncSession):
 
     username = verified_token.get("sub")
     print(username)
-    username_from_db = UserRepository.get_user_by_username(db=session, username=username)
+    username_from_db = await UserRepository.get_user_by_username(db=session, username=username)
     if not username_from_db:
         raise HTTPException(status_code=401, detail="По такому имени в JWT-Токене нет пользователя в базе данных")
 
