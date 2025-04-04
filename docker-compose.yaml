@@ -3,6 +3,8 @@ services:
     build: .
     restart: always
     container_name: playit-shop-backend
+    env_file:
+      - .env
     ports:
      - "8002:8002"
     networks:
