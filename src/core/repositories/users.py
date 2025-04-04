@@ -28,10 +28,10 @@ class UserRepository:
                     from users
                     where username = :username
                     """)
-        try:
-            result = await db.execute(stmt, {"username": username})
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
+        # try:
+        result = await db.execute(stmt, {"username": username})
+        # except Exception as e:
+        #     raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
 
         row = result.fetchone()
 
