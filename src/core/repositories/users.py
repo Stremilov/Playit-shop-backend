@@ -29,6 +29,8 @@ class UserRepository:
                     where username = :username
                     """)
         # try:
+        print(type(username))
+        print(username)
         result = await db.execute(stmt, {"username": username})
         # except Exception as e:
         #     raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
