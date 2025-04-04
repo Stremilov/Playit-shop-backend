@@ -28,9 +28,11 @@ class PrizeRepository:
                 # Если транзакции нет, используем контекстный менеджер
                 try:
                     async with db.begin():
-                        return await PrizeRepository._perform_exchange_operations(
+                        result =  await PrizeRepository._perform_exchange_operations(
                             prize_title, prize_value, user_id, db
                         )
+                        await db.commit()
+                        return result
                 except Exception as e:
                     logging.error(f"Ошибка при обмене (новая транзакция): {e}", exc_info=True)
                     raise HTTPException(
