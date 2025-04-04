@@ -91,4 +91,5 @@ class PrizeRepository:
                 user=user_dict
             )
         except Exception as e:
+            await db.rollback()
             raise HTTPException(status_code=500, detail=f"Ошибка в PrizeRepository._perform_exchange_operations: {str(e)}")
