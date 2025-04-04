@@ -9,6 +9,8 @@ def verify_jwt_token(token: str) -> dict:
     """
     # try:
     audience = "prod"  # Должно совпадать с "aud" в create_jwt_token
+    print(settings.token.SECRET_KEY)
+    print(type(settings.token.SECRET_KEY))
     d_token = decode_jwt(str(token), settings.token.SECRET_KEY, audience)
     print(d_token)
     # return decode_jwt(str(token), settings.token.SECRET_KEY, audience)
