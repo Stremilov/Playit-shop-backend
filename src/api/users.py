@@ -25,5 +25,9 @@ users_router = APIRouter(
     - Делает запись транзакции в бд
     """
 )
-async def change_user_points(request: Request, data: ExchangeData, db: AsyncSession = Depends(get_db)):
-    return await PrizeService.exchange(request, data, db)
+async def change_user_points(
+        request: Request,
+        data: ExchangeData,
+        db: AsyncSession = Depends(get_db)
+):
+    return await PrizeService.exchange(request=request, data=data, db=db)

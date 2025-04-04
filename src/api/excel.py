@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.api.responses import excel_parser_responses
 from src.core.schemas.excel import ShopItemsResponse
 from src.core.services.excel import ExcelService
+from src.core.database.connection import get_db
+
 
 exel_router = APIRouter()
 
@@ -21,6 +24,7 @@ exel_router = APIRouter()
     responses=excel_parser_responses
 )
 async def shop_parser(
-        request: Request
+        request: Request,
+        session: AsyncSession = Depends(get_db)
 ):
-    return await ExcelService.parse_shop(request)
+    return await ExcelService.parse_shop(request=request, session=session)
