@@ -13,6 +13,9 @@ async def verify_user_by_jwt(request: Request, session: AsyncSession):
     if not token:
         raise HTTPException(status_code=401, detail="Не авторизован")
 
+    if not isinstance(token, str):
+        raise HTTPException(status_code=401, detail="Токен должен быть строкой")
+
     verified_token = verify_jwt_token(token)
 
     username_from_jwt = verified_token.get("sub")
