@@ -13,6 +13,7 @@ async def verify_user_by_jwt(request: Request, session: AsyncSession):
     if not token:
         raise HTTPException(status_code=401, detail="Не авторизован")
 
+    print(token)
     verified_token = verify_jwt_token(token)
     print(verified_token)
 
