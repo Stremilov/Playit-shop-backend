@@ -75,6 +75,8 @@ class PrizeRepository:
                 {"value": prize_value, "user_id": user_id}
             )
 
+            await db.commit()
+
             # 4. Получение обновленных данных
             user_result = await db.execute(
                 text("SELECT * FROM users WHERE id = :user_id"),
