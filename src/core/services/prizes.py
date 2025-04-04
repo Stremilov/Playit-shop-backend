@@ -5,12 +5,18 @@ from src.core.repositories.prizes import PrizeRepository
 from src.core.repositories.users import UserRepository
 from src.core.schemas.users import ExchangeData
 from src.core.services.excel import ExcelService
+from src.core.utils.auth import verify_user_by_jwt
 
 
 class PrizeService:
 
     @staticmethod
     async def exchange(request: Request, data: ExchangeData, db: AsyncSession):
+        try:
+            await verify_user_by_jwt(request=request, session=db)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Ошибка при верификации по jwt-Токену: {str(e)}")
+
         # Ранее тут сравнивался tuple с числом, исправил это в get_user_coins(...)
         try:
             if await UserRepository.get_user_coins(user_id=data.user_id, db=db) >= data.value:

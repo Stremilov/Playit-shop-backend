@@ -2,18 +2,21 @@ import json
 
 import pandas
 from fastapi import HTTPException, status, Request
+from sqlalchemy.ext.asyncio import AsyncSession
 from pandas import read_excel
 
 from src.core.schemas.excel import ShopItemsResponse
+from src.core.utils.auth import verify_user_by_jwt
 
 
 class ExcelService:
 
     @staticmethod
-    async def parse_shop(request: Request):
-        # user = await verify_user_by_jwt(request)
-        # if not user:
-        #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Пользователь не найден")
+    async def parse_shop(
+            request: Request,
+            session: AsyncSession
+    ):
+        await verify_user_by_jwt(request=request, session=session)
 
         file_path = "PlayIT.xlsx"
 
