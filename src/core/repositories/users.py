@@ -28,32 +28,12 @@ class UserRepository:
                     from users
                     where username = :username
                     """)
-        # try:
-        print(type(username))
         print(username)
-        result = await db.execute(stmt, {"username": username})
-        # except Exception as e:
-        #     raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
+        try:
+            result = await db.execute(stmt, {"username": username})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
 
         row = result.fetchone()
 
         return row[0] if row else None
-
-    @staticmethod
-    async def get_user_by_tg_id(db: AsyncSession, tg_id: int) -> Optional[str]:
-        stmt = text("""
-                        select username
-                        from users
-                        where telegram_id = :telegram_id
-                        """)
-        # try:
-        print(type(tg_id))
-        print(tg_id)
-        result = await db.execute(stmt, {"telegram_id": tg_id})
-        # except Exception as e:
-        #     raise HTTPException(status_code=500, detail=f"Ошибка при запросе в БД {str(e)}")
-
-        row = result.fetchone()
-
-        return row[0] if row else None
-

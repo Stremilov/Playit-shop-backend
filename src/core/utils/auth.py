@@ -15,9 +15,9 @@ async def verify_user_by_jwt(request: Request, session: AsyncSession):
 
     verified_token = verify_jwt_token(token)
 
-    tg_from_jwt = verified_token.get("telegram_id")
-    print(tg_from_jwt)
-    username_from_db = UserRepository.get_user_by_tg_id(db=session, tg_id=tg_from_jwt)
+    username = verified_token.get("sub")
+    print(username)
+    username_from_db = UserRepository.get_user_by_username(db=session, username=username)
     if not username_from_db:
         raise HTTPException(status_code=401, detail="По такому имени в JWT-Токене нет пользователя в базе данных")
 
