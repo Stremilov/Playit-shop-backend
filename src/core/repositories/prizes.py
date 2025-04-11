@@ -8,14 +8,14 @@ from src.core.schemas.users import ExchangeResponse
 
 class PrizeRepository:
     @staticmethod
-    async def exchange(prize_title: str, prize_value: int, user_id: int, db: AsyncSession):
+    async def exchange(prize_title: str, prize_value: int, user_id: int, prize_id: int, db: AsyncSession):
         try:
             # Проверяем, не начата ли уже транзакция
             if db.in_transaction():
                 # Если транзакция уже начата, работаем без контекстного менеджера
                 try:
                     return await PrizeRepository._perform_exchange_operations(
-                        prize_title, prize_value, user_id, db
+                        prize_title, prize_value, user_id, prize_id, db
                     )
                 except Exception as e:
                     await db.rollback()
@@ -29,7 +29,7 @@ class PrizeRepository:
                 try:
                     async with db.begin():
                         result =  await PrizeRepository._perform_exchange_operations(
-                            prize_title, prize_value, user_id, db
+                            prize_title, prize_value, user_id, prize_id, db
                         )
                         await db.commit()
                         return result
@@ -43,7 +43,7 @@ class PrizeRepository:
             raise HTTPException(status_code=500, detail=f"Ошибка в PrizeRepository.exchange: {str(e)}")
 
     @staticmethod
-    async def _perform_exchange_operations(prize_title: str, prize_value: int, user_id: int, db: AsyncSession):
+    async def _perform_exchange_operations(prize_title: str, prize_value: int, user_id: int, prize_id: int, db: AsyncSession):
         """Выполнение операций обмена"""
         try:
             # 1. Проверка баланса
@@ -61,10 +61,10 @@ class PrizeRepository:
             # 2. Добавление приза
             await db.execute(
                 text("""
-                    INSERT INTO prizes (title, value, user_id)
-                    VALUES (:title, :value, :user_id)
+                    INSERT INTO prizes (prize_id, title, value, user_id)
+                    VALUES (:prize_id, :title, :value, :user_id)
                 """),
-                {"title": prize_title, "value": prize_value, "user_id": user_id}
+                {"prize_id": prize_id, "title": prize_title, "value": prize_value, "user_id": user_id}
             )
 
             # 3. Обновление баланса
